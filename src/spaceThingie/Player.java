@@ -29,10 +29,7 @@ public class Player {
   private GameLevel level;
   private double heading;
   private boolean fire;
-  
-  
-  
-  
+
   public Player(PApplet parent, float xInitial, float yInitial) {
     this.pA = parent;
     this.pos = new Position(xInitial, yInitial);
@@ -130,5 +127,4 @@ public class Player {
   public Position getPosition() {
     return pos;
   }
-
 }
