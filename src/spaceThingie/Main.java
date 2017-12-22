@@ -37,6 +37,8 @@ public class Main extends PApplet {
   private ViewFrame frame;
   private GameLevel level;
   private Mouse mouse;
+  
+  private Player npc;
 
   public static void main(String[] args) {
     processing.core.PApplet.main("spaceThingie.Main");
@@ -47,11 +49,20 @@ public class Main extends PApplet {
   }
 
   public void setup() {
+    // Player's player
     p = new Player(this, 0, 0);
+    p.setGameEntity(new Ship(100, 100, new Position(10, 10)));
+    
+    // Testing NPC's player
+    npc = new Player(this, 2000, 2000);
+    npc.setGameEntity(new Ship(100, 100, new Position(10, 10)));
+    
+    
     HKeys = new boolean[4];
     mouse = new Mouse(mouseX, mouseY);
     frame = new ViewFrame(this, p, (float) 1600, (float) 900, (float) displayWidth, (float) displayHeight);
     level = new GameLevel(4000, 4000);
+    level.addNPC(npc);
     frame.useLevel(level);
   }
 

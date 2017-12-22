@@ -76,7 +76,6 @@ public class Position {
 
     x = -rotX;
     y = rotY;
-
   }
 
   public void nullPosition() {

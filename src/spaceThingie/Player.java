@@ -88,6 +88,9 @@ public class Player {
       heading = PApplet
           .radians((float) (Math.asin(deltaMouse.y / hyp) * (180 / Math.PI) + 90) * (deltaMouse.x < 0 ? -1 : 1));
     }
+    if(Double.isNaN(heading)) {
+      heading = 0;
+    }
    }
 
   private void movePlayer() {

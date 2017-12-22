@@ -27,6 +27,7 @@ public class GameLevel {
   public Vector<Object> content;
   public Vector<Position> stars;
   public Vector<Projectile> projectiles; 
+  public Vector<Player> npcs;
   
   public GameLevel(float width, float height) {
     this.width = width;
@@ -34,12 +35,17 @@ public class GameLevel {
     projectiles = new Vector<Projectile>();
     content = new Vector<Object>();
     stars = new Vector<Position>();
+    npcs = new Vector<Player>();
     generateStars(0.0001);
   }
   
   public int loadLevel(String filename) {
     // TODO implementation
     return 0;
+  }
+  
+  public void addNPC(Player npc) {
+    npcs.add(npc);
   }
   
   public void scrub() {
@@ -50,6 +56,9 @@ public class GameLevel {
     for(Projectile p : projectiles) {
       if(!p.isDespawned())
         p.updateProjectile(offset);
+    }
+    for(Player p : npcs) {
+      p.updatePlayer(new Position(0,0), offset);
     }
   }
   

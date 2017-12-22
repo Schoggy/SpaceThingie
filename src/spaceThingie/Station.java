@@ -17,6 +17,12 @@ along with SpaceThingie.  If not, see <http://www.gnu.org/licenses/>.
 
 package spaceThingie;
 
-public class Station {
+public class Station extends GameEntity {
+
+  @Override
+  public boolean takeDamage(long damage) {
+    this.hp -= damage;
+    return (this.hp <= 0) ? false : true;
+  }
 
 }

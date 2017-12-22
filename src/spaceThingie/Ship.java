@@ -19,9 +19,19 @@ package spaceThingie;
 
 public class Ship extends GameEntity{
   
-  public Ship() {
-    
+  public Ship(long maxHp, long initialHp, Position hitbox) {
+    this.maxHp = maxHp;
+    this.hp = initialHp;
+    this.hitbox = hitbox;
   }
+
+  @Override
+  public boolean takeDamage(long damage) {
+    this.hp -= damage;
+    return (this.hp <= 0) ? false : true;
+  }
+  
+  
   
   
 }

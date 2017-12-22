@@ -22,14 +22,25 @@ import processing.core.PImage;
 public abstract class GameEntity {
 
   protected long hp;
-  protected Area hitbox;
+  protected long maxHp;
+  protected Position hitbox;
   protected PImage texture;
   
   
+  public void setTexture(PImage texture) {
+    this.texture = texture;
+  }
+  
+  public void setHitbox(Position hitbox) {
+    this.hitbox = hitbox;
+  }
+  
+  public PImage getTexture() {
+    return this.texture;
+  }
   
   
   
   
-  
-  
+  public abstract boolean takeDamage(long damage);
 }

@@ -17,6 +17,8 @@ along with SpaceThingie.  If not, see <http://www.gnu.org/licenses/>.
 
 package spaceThingie;
 
+import java.util.Vector;
+
 import processing.core.PApplet;
 
 public class ViewFrame {
@@ -38,8 +40,7 @@ public class ViewFrame {
     Position decideHigh = Position.minus(Position.minus(new Position(level.width, level.height),
                             Position.multSkalar(frame.getSize(), 0.5)), player.getPosition());
     Position decideLow = Position.minus(player.getPosition(), Position.plus(Position.multSkalar(frame.getSize(), 0.5), movement));
-    //decideHigh.updatePosition(-level.width, -level.height);
-    
+
     movement.x = ((decideLow.x < 0) || (decideHigh.x < 0)) ? 0 : movement.x;
     movement.y = ((decideLow.y < 0) || (decideHigh.y < 0)) ? 0 : movement.y;
    
