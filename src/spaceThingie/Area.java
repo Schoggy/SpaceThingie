@@ -46,6 +46,10 @@ public class Area {
     return anker;
   }
   
+  public Position getPositionBL() {
+    return Position.plus(anker, size);
+  }
+  
   public Position getMiddle() {
     return Position.plus(Position.multSkalar(size, 0.5), anker);
   }

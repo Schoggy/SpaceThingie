@@ -73,14 +73,22 @@ public class ViewFrame {
     return Position.limitPositionToPositive(frame.getPosition());
   }
   
+  public void drawFPSCounter(float fps) {
+    pA.fill(0xFFFFFFFF);
+    pA.stroke(0xFFFFFFFF);
+    pA.text(String.valueOf(Math.round(fps)), 50, 50);
+  }
+  
   private void drawStars(Position offset) {
     pA.fill(0xFFFFFFFF);
     pA.stroke(0xFFFFFFFF);
-    for(Position star : level.stars) {
-      if(frame.isInArea(star)) {
+    Vector<GameLevelQuad> dquads = level.getQuadsInArea(frame); 
+    for(GameLevelQuad quad : dquads) {
+      for(Position star : quad.stars) {
         pA.rect(star.x - offset.x, star.y - offset.y, 1, 1);
       }
     }
+    
   }
   
   

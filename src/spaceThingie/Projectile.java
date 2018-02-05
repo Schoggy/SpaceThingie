@@ -29,8 +29,10 @@ public abstract class Projectile {
   protected PImage texture;
   protected String id;
   protected PApplet pA;
-  private GameLevel level;
+  protected GameLevel level;
   private boolean isDespawned;
+  protected GameEntity parent;
+  protected GameLevelQuad crtQuad;
   
   public Projectile() {
     pos = new Position(0,0);
@@ -38,9 +40,10 @@ public abstract class Projectile {
     isDespawned = false;
   }
   
-  public void setParents(PApplet p, GameLevel level) {
+  public void setParents(PApplet p, GameLevel level, GameEntity gE) {
     pA = p;
     this.level = level;
+    parent = gE;
   }
   
   protected void drawProjectile(Position offset) {
@@ -81,6 +84,15 @@ public abstract class Projectile {
     }
   }
   
+  public boolean canHitEntity(GameEntity gE) {
+    if(gE == parent) {
+      return false;
+    }
+    return true;
+  }
+  
+  public abstract void hitEffect(GameEntity gE);
+  public abstract int getHitDamage();
   public abstract void updateProjectile(Position offset);
   protected abstract void orientProjectile();
   protected abstract void moveProjectile();

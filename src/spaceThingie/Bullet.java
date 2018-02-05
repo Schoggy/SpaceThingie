@@ -24,14 +24,16 @@ public class Bullet extends Projectile {
   private int damage;
   private Position speed;
   
-  public Bullet(PApplet p, GameLevel level, float x, float y, double heading, float speed) {
+  public Bullet(PApplet p, GameLevel level, float x, float y, double heading, float speed, int damage, GameEntity parent) {
     this.speed = new Position(0,0);
     id = "Bullet";
     pos.x = x;
     pos.y = y;
     this.speed.y = -speed;
     this.heading = heading;
-    setParents(p, level);
+    setParents(p, level, parent);
+    
+    crtQuad = level.getQuadAtPos(pos);
   }
   
   
@@ -59,7 +61,19 @@ public class Bullet extends Projectile {
 
   @Override
   protected void moveProjectile() {
-    pos.updatePosition(movement);
+    pos.updatePositionKeepPositive(movement);
+    crtQuad = level.getQuadAtPos(pos);
+  }
+
+
+  @Override
+  public void hitEffect(GameEntity gE) {    
+  }
+
+
+  @Override
+  public int getHitDamage() {
+    return damage;
   }
 
 }

@@ -35,6 +35,10 @@ public abstract class GameEntity {
     this.hitbox = hitbox;
   }
   
+  public Position getHitbox() {
+    return hitbox;
+  }
+  
   public PImage getTexture() {
     return this.texture;
   }

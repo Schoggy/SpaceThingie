@@ -17,6 +17,8 @@ along with SpaceThingie.  If not, see <http://www.gnu.org/licenses/>.
 
 package spaceThingie;
 
+import java.util.Vector;
+
 import processing.core.*;
 
 public class Player {
@@ -68,7 +70,7 @@ public class Player {
     ps.endShape(PConstants.CLOSE);
     ps.rotate((float) heading);
     ps.draw(pA.g);
-    pA.text("x: " + pos.x + " y: " + pos.y, pos.x - offset.x, pos.y - offset.y);
+    pA.text("x: " + pos.x + " y: " + pos.y + " HP: " + vehicle.hp, pos.x - offset.x, pos.y - offset.y);
   }
 
   public void setPositionFixed(Position newPos) {
@@ -107,12 +109,30 @@ public class Player {
       fire = false;
       shoot();
     }
+    hitDetection();
     movement.nullPosition();
     return out;
   }
   
+  private void hitDetection() {
+    Area hitbox = new Area(pos.x, pos.y, vehicle.getHitbox().x, vehicle.getHitbox().y);
+    Vector<GameLevelQuad> quads = level.getQuadsInArea(hitbox);
+    
+    for(GameLevelQuad quad : quads) {
+      for(Projectile p : quad.projectiles) {
+        if(p.canHitEntity(vehicle)) {
+          if(hitbox.isInArea(p.pos)) {
+            vehicle.takeDamage(p.getHitDamage());
+            p.despawn();
+          }
+        }
+      }
+    }
+    
+  }
+  
   private void shoot() {
-    level.addProjectile(new Bullet(pA, level, pos.x, pos.y, (float) heading, (float) 5.0));
+    level.addProjectile(new Bullet(pA, level, pos.x, pos.y, (float) heading, (float) 5.0, 1, vehicle));
   }
   
   public void setShoot() {
@@ -130,4 +150,5 @@ public class Player {
   public Position getPosition() {
     return pos;
   }
+  
 }

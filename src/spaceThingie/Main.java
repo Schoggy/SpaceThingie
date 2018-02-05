@@ -33,6 +33,12 @@ public class Main extends PApplet {
   
   public boolean[] HKeys;
   
+  private long sTime, tTime, gTime;
+  private long[] tTimes, gTimes;
+  private int tCount;
+  private long avgTTime, avgGTime;
+  
+  
   private Player p;
   private ViewFrame frame;
   private GameLevel level;
@@ -57,11 +63,15 @@ public class Main extends PApplet {
     npc = new Player(this, 2000, 2000);
     npc.setGameEntity(new Ship(100, 100, new Position(10, 10)));
     
-    
+    tCount = 0;
+    tTimes = new long[60];
+    gTimes = new long[60];
     HKeys = new boolean[4];
     mouse = new Mouse(mouseX, mouseY);
     frame = new ViewFrame(this, p, (float) 1600, (float) 900, (float) displayWidth, (float) displayHeight);
-    level = new GameLevel(4000, 4000);
+    level = new GameLevel(50, 50, 100, 100);
+    p.setLevel(level);
+    npc.setLevel(level);
     level.addNPC(npc);
     frame.useLevel(level);
   }
@@ -72,12 +82,36 @@ public class Main extends PApplet {
       handleMovement();
     }
     
+    sTime = System.nanoTime();
     frame.draw(mouse);
+    
+    gTime = System.nanoTime();
+    
     level.tick(frame.getOffset());
     
-    if(frameCount % 120 == 0) {
-      level.scrub();
+    tTime = System.nanoTime();
+    
+    gTimes[tCount] = gTime - sTime;
+    tTimes[tCount] = tTime - gTime;
+    
+    tCount++;
+    if(frameCount % 60 == 0) {
+      tCount = 0;
+      avgTTime = 0;
+      avgGTime = 0;
+      for(long time : tTimes) {
+        avgTTime += time / 1000;
+      }
+      for(long time : gTimes) {
+        avgGTime += time / 1000;
+      }
+      avgTTime /= 60;
+      avgGTime /= 60;
+      System.out.println("Avg. tick: " + avgTTime + "µs | Avg. draw: " + avgGTime + "µs. | PL: " 
+            + (100 - (((avgTTime + avgGTime) * 100) / (1000000 / 60))) + "%.");
     }
+    frame.drawFPSCounter(frameRate);
+    
   }
   
   public void mouseMoved() {
