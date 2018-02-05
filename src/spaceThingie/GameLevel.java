@@ -87,19 +87,25 @@ public class GameLevel {
   }
   
   public GameLevelQuad getQuadAtPos(Position pos) {
+    // Calculate X index
     int quadX = (int) Math.floor(pos.x / quadWidth);
+    // Check boundaries
     if(quadX < 0) {
       quadX = 0;
     } else if(quadX >= quadCountX) {
       quadX = quadCountX - 1;
     }
+    
+    // Calculate Y index
     int quadY = (int) Math.floor(pos.y / quadHeight);
+    // Check boundaries
     if(quadY < 0) {
       quadY = 0;
     } else if(quadY >= quadCountY) {
       quadY = quadCountY - 1;
     }
     
+    // Get quad 
     return quads[quadX][quadY];
   }
   

@@ -79,7 +79,7 @@ public abstract class Projectile {
   }
   
   protected void checkBoundaries() {
-    if(pos.x < 0 || pos.x > level.width || pos.y < 0 || pos.y > level.height) {
+    if(pos.x <= 0 || pos.x >= level.width || pos.y <= 0 || pos.y >= level.height) {
       isDespawned = true;
     }
   }

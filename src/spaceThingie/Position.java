@@ -50,8 +50,8 @@ public class Position {
   }
 
   public void updatePositionKeepPositive(Position delta) {
-    x += (delta.x + x < 0) ? 0 : delta.x;
-    y += (delta.y + y < 0) ? 0 : delta.y;
+    x = (delta.x + x < 0) ? 0 : x + delta.x;
+    y = (delta.y + y < 0) ? 0 : y + delta.y;
   }
 
   public void updatePositionFixed(float x, float y) {
