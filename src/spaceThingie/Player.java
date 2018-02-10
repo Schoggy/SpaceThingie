@@ -25,12 +25,13 @@ public class Player {
 
   private PApplet pA;
 
-  private GameEntity vehicle;
+  public GameEntity vehicle;
   private boolean isNPC;
   private Position pos, movement;
   private GameLevel level;
   private double heading;
   private boolean fire;
+  public boolean alive = true;
 
   public Player(PApplet parent, float xInitial, float yInitial) {
     this.pA = parent;
@@ -115,14 +116,16 @@ public class Player {
   }
   
   private void hitDetection() {
-    Area hitbox = new Area(pos.x, pos.y, vehicle.getHitbox().x, vehicle.getHitbox().y);
+    Area hitbox = new Area(pos, vehicle.hitboxSize);
     Vector<GameLevelQuad> quads = level.getQuadsInArea(hitbox);
     
     for(GameLevelQuad quad : quads) {
       for(Projectile p : quad.projectiles) {
         if(p.canHitEntity(vehicle)) {
           if(hitbox.isInArea(p.pos)) {
-            vehicle.takeDamage(p.getHitDamage());
+            if(vehicle.takeDamage(p.getHitDamage())) {
+              alive = false;
+            }
             p.despawn();
           }
         }
@@ -132,7 +135,7 @@ public class Player {
   }
   
   private void shoot() {
-    level.addProjectile(new Bullet(pA, level, pos.x, pos.y, (float) heading, (float) 5.0, 1, vehicle));
+    level.addProjectile(new Bullet(pA, level, pos.x, pos.y, (float) heading, (float) 5.0, 35, vehicle));
   }
   
   public void setShoot() {
@@ -149,6 +152,9 @@ public class Player {
   
   public Position getPosition() {
     return pos;
+  }
+  
+  public void die() {
   }
   
 }

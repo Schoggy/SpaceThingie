@@ -17,6 +17,7 @@ along with SpaceThingie.  If not, see <http://www.gnu.org/licenses/>.
 
 package spaceThingie;
 
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -24,15 +25,18 @@ public class GameLevelQuad {
 
   public Position anker;
   public Vector<Position> stars;
-  public Vector<Projectile> projectiles; 
-  public Vector<Player> npcs;
+  public LinkedList<Projectile> projectiles; 
+  public LinkedList<Player> npcs;
+  
+  public boolean hasProjectiles;
+  public boolean hasGameEntity;
   
   public GameLevelQuad(Position anker) {
     this.anker = anker;
     
-    projectiles = new Vector<Projectile>();
+    projectiles = new LinkedList<Projectile>();
     stars = new Vector<Position>();
-    npcs = new Vector<Player>();
+    npcs = new LinkedList<Player>();
   }
   
   public void tick(Position offset) {
@@ -43,7 +47,22 @@ public class GameLevelQuad {
     for(Player p : npcs) {
       p.updatePlayer(new Position(0,0), offset);
     }
+  }
+  public void cleanup() {
     cleanProjectiles();
+    cleanPlayers();
+  }
+  
+  private void cleanPlayers() {
+    ListIterator<Player> iter = npcs.listIterator();
+    Player p;
+    while(iter.hasNext()) {
+      p = iter.next();
+      if(!p.alive) {
+        p.die();
+        iter.remove();
+      }
+    }
   }
   
   public void cleanProjectiles() {
@@ -53,8 +72,22 @@ public class GameLevelQuad {
       p = iter.next();
       if(p.isDespawned()) {
         iter.remove();
+        continue;
+      }
+      if(p.crtQuad != this) {
+        p.crtQuad.projectiles.add(p);
+
+        iter.remove();
       }
     }
+  }
+  
+  public GameLevelQuad handOverProjectile(GameLevelQuad oldQuad, Projectile p) {
+    if(oldQuad != this) {
+      projectiles.add(p);
+      oldQuad.projectiles.remove(p);
+    }
+    return this;
   }
   
 }

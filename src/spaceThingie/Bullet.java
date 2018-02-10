@@ -31,6 +31,7 @@ public class Bullet extends Projectile {
     pos.y = y;
     this.speed.y = -speed;
     this.heading = heading;
+    this.damage = damage;
     setParents(p, level, parent);
     
     crtQuad = level.getQuadAtPos(pos);
@@ -62,7 +63,7 @@ public class Bullet extends Projectile {
   @Override
   protected void moveProjectile() {
     pos.updatePositionKeepPositive(movement);
-    crtQuad = level.getQuadAtPos(pos);
+    crtQuad = level.getQuadAtPos(pos);//.handOverProjectile(crtQuad, this);
   }
 
 

@@ -23,20 +23,29 @@ public abstract class GameEntity {
 
   protected long hp;
   protected long maxHp;
-  protected Position hitbox;
+  protected Position hitboxSize;
   protected PImage texture;
+  protected int teamID;
+  protected Position pos;
   
+  public int getTeam() {
+    return teamID;
+  }
+  
+  public void setTeam(int teamID) {
+    this.teamID = teamID;
+  }
   
   public void setTexture(PImage texture) {
     this.texture = texture;
   }
   
   public void setHitbox(Position hitbox) {
-    this.hitbox = hitbox;
+    this.hitboxSize = hitbox;
   }
   
-  public Position getHitbox() {
-    return hitbox;
+  public Area getHitbox() {
+    return new Area(pos, hitboxSize);
   }
   
   public PImage getTexture() {

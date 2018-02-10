@@ -85,7 +85,7 @@ public abstract class Projectile {
   }
   
   public boolean canHitEntity(GameEntity gE) {
-    if(gE == parent) {
+    if(gE.getTeam() == parent.getTeam()) {
       return false;
     }
     return true;

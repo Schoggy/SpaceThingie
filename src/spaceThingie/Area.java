@@ -26,6 +26,11 @@ public class Area {
     size = new Position(width, height);
   }
   
+  public Area(Position anker, Position size) {
+    this.anker = anker;
+    this.size = size;
+  }
+  
   public void resize(float newWidth, float newHeight) {
     size.updatePositionFixed(newWidth, newHeight);
   }

@@ -58,10 +58,12 @@ public class Main extends PApplet {
     // Player's player
     p = new Player(this, 0, 0);
     p.setGameEntity(new Ship(100, 100, new Position(10, 10)));
+    p.vehicle.setTeam(1);
     
     // Testing NPC's player
     npc = new Player(this, 2000, 2000);
-    npc.setGameEntity(new Ship(100, 100, new Position(10, 10)));
+    npc.setGameEntity(new Ship(100, 100, new Position(100, 100)));
+    npc.vehicle.setTeam(0);
     
     tCount = 0;
     tTimes = new long[60];
@@ -109,6 +111,8 @@ public class Main extends PApplet {
       avgGTime /= 60;
       System.out.println("Avg. tick: " + avgTTime + "µs | Avg. draw: " + avgGTime + "µs. | PL: " 
             + (100 - (((avgTTime + avgGTime) * 100) / (1000000 / 60))) + "%.");
+
+      npc.setShoot();
     }
     frame.drawFPSCounter(frameRate);
     
@@ -133,6 +137,13 @@ public class Main extends PApplet {
     }
     if(key == ' ') {
       p.setShoot();
+    }
+    if(key == 'n') {
+      Player tempNPC = new Player(this, (float) (4000 * Math.random() + 100), (float) (4000 * Math.random() + 100));
+      tempNPC.setGameEntity(new Ship(100, 100, new Position(100, 100)));
+      tempNPC.vehicle.setTeam(0);
+      tempNPC.setLevel(level);
+      level.addNPC(tempNPC);
     }
     if(key == 'q') {
       exit();

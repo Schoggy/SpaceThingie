@@ -17,8 +17,6 @@ along with SpaceThingie.  If not, see <http://www.gnu.org/licenses/>.
 
 package spaceThingie;
 
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Vector;
 
 public class GameLevel {
@@ -117,6 +115,11 @@ public class GameLevel {
     for(GameLevelQuad quadA[] : quads) {
       for(GameLevelQuad quad : quadA) {
         quad.tick(offset);
+      }
+    }
+    for(GameLevelQuad quadA[] : quads) {
+      for(GameLevelQuad quad : quadA) {
+        quad.cleanup();
       }
     }
   }
